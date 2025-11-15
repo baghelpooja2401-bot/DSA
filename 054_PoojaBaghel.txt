@@ -1,0 +1,109 @@
+//PRN: 250844520054
+//NAME: Pooja Baghel
+//EMAIL:baghelpooja2401@gmail.com
+
+//Q1
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.*;
+import java.util.Scanner;
+
+import static java.lang.System.out;
+
+class InfixToPostfix {
+    static int prec(char ch) {
+        switch (ch) {
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+                return 2;
+            case '^':
+                return 3;
+
+
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        out.println("Enter one expression");
+        String str = sc.next();
+        String postfix = "";
+        Deque<Character> stack = new ArrayDeque<>();
+        for (char ch : str.toCharArray()) {
+            if (ch == '(') {
+                stack.push(ch);
+            } else if (ch == ')') {
+                while (!stack.isEmpty() && stack.peek() != '(') {
+                    postfix += stack.pop();
+                }
+                if (!stack.isEmpty() && stack.peek() == '(') {
+                    stack.pop();
+                }
+
+
+            } else if (Character.isLetterOrDigit(ch)) {
+                postfix += ch;
+            } else {
+                while (!stack.isEmpty() && prec(ch) <= prec(stack.peek())) {
+                    postfix += stack.pop();
+                }
+                stack.push(ch);
+
+            }
+        }
+        while (!stack.isEmpty()) {
+            postfix += stack.pop();
+        }
+        out.println(postfix);
+    }
+}
+
+
+//Q2
+
+import java.util.*;
+import java.util.Deque;
+import java.util.ArrayDeque;
+import static java.lang.System.out;
+public class postfixevaluate {
+
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        out.println("Enter infix");
+        String str=sc.next();
+        int res=0;
+        Deque<Integer>stack=new ArrayDeque<>();
+        for(int i=str.length()-1;i>=0;i--){
+            char ch=str.charAt(i);
+            if(Character.isDigit(ch)){
+                stack.push(ch-'0');
+            }
+            else if(ch=='+' || ch=='-' || ch=='*'|| ch=='/'){
+                int opend1=stack.pop();
+                int opend2=stack.pop();
+                switch(ch){
+                    case '+':
+                        res = opend1 +opend2;
+                        break;
+                    case '-':
+                        res = opend1 - opend2;
+                        break;
+                    case '*':
+                        res = opend1 * opend2;
+                        break;
+                    case '/':
+                        res = opend1 / opend2;
+                        break;
+                }
+                stack.push(res);
+            }
+        }
+        out.println(stack.pop()
+        );
+
+    }
+}

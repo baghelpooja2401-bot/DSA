@@ -1,0 +1,165 @@
+//PRN: 250844520054
+//NAME: Pooja Baghel
+//EMAIL:baghelpooja2401@gmail.com
+
+//Q1
+package LinkedList;
+import java.util.LinkedList;
+import java.util.Scanner;
+public class Ass1 {
+
+
+
+        public static class Node{
+            String name;
+            int id;
+            double Salary;
+            String gender;
+            Node next;
+
+            public Node(String Name,String gender,int id,double sal){
+                this.id = id;
+                this.gender = gender;
+                this.Salary = sal;
+                this.name = Name;
+                this.next = null;
+            }
+
+            void print_list(){
+                System.out.println("Details Are as Follows");
+
+                System.out.println("Name "+name);
+                System.out.println("Gender "+gender);
+                System.out.println("id "+id);
+                System.out.println("Salary "+Salary);
+            }
+
+            static void delete_rec(LinkedList<Node> list,int id){
+                boolean found = false;
+                for (Node n : list) {
+                    if (n.id == id){
+                        list.remove(n);
+                        System.out.println("Deletion Successfull");
+                        found = true;
+                        break;
+                    }
+                }
+                if (found== false){
+                    System.out.println("Record not found");
+                }
+            }
+
+            static void update_rec(LinkedList<Node> list,int id){
+
+                Scanner sc = new Scanner(System.in);
+
+                Node foundnode = null;
+
+                for (Node n : list){
+                    if (n.id == id){
+                        foundnode = n;
+                        break;
+                    }
+                }
+                if (foundnode == null){
+                    System.out.println("Record Not found");
+                }
+
+                list.remove(foundnode);
+
+                System.out.println("Record Found");
+                System.out.println("Enter Updated Details");
+
+                System.out.print("Enter new Name: ");
+                String name = sc.next();
+
+                System.out.print("Enter new Gender: ");
+                String gender = sc.next();
+
+                System.out.print("Enter new Salary: ");
+                double salary = sc.nextDouble();
+
+                list.add(new Node(name, gender, id, salary));
+
+                System.out.println("Record Updated Successfully");
+            }
+        }
+        public static void main(String[] args) {
+
+            LinkedList<Node> list = new LinkedList<>();
+            Scanner sc = new Scanner(System.in);
+
+            int choice;
+            do {
+                System.out.println("\n--- MENU ---");
+                System.out.println("1. Insert Records");
+                System.out.println("2. Display Records");
+                System.out.println("3. Delete Record by ID");
+                System.out.println("4. Update Record by ID");
+                System.out.println("5. Exit");
+                System.out.print("Enter choice: ");
+                choice = sc.nextInt();
+
+                switch (choice) {
+
+                    case 1:
+                        System.out.print("Enter number of records to insert: ");
+                        int num = sc.nextInt();
+
+                        for (int i = 0; i < num; i++) {
+                            System.out.println("\nEnter Details: ");
+
+                            System.out.print("Enter Name: ");
+                            String name = sc.next();
+
+                            System.out.print("Enter Gender: ");
+                            String gender = sc.next();
+
+                            System.out.print("Enter ID: ");
+                            int id = sc.nextInt();
+
+                            System.out.print("Enter Salary: ");
+                            double salary = sc.nextDouble();
+
+                            list.add(new Node(name, gender, id, salary));
+                        }
+                        break;
+
+                    case 2:
+                        if (list.isEmpty()) {
+                            System.out.println("No records available.");
+                        } else {
+                            System.out.println("\n--- All Records ---");
+                            for (Node n : list) {
+                                n.print_list();
+                            }
+                        }
+                        break;
+
+                    case 3:
+                        System.out.print("Enter ID to delete: ");
+                        int del_id = sc.nextInt();
+                        Node.delete_rec(list, del_id);
+                        break;
+
+                    case 4:
+                        System.out.print("Enter ID to update: ");
+                        int up_id = sc.nextInt();
+                        Node.update_rec(list, up_id);
+                        break;
+
+                    case 5:
+                        System.out.println("Exiting...");
+                        break;
+
+                    default:
+                        System.out.println("Invalid choice! Try again.");
+                }
+
+            } while (choice != 5);
+
+            sc.close();
+        }
+
+    }
+
